@@ -1,0 +1,71 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Fraunces", ui-serif, Georgia, serif;
+  --font-auth: "Plus Jakarta Sans", "DM Sans", ui-sans-serif, system-ui, sans-serif;
+
+  /* Auth modal design tokens */
+  --auth-radius-shell: 36px;
+  --auth-radius-control: 16px;
+  --auth-shadow-elevated: 0 32px 100px -32px rgba(0, 0, 0, 0.45);
+  --auth-shadow-control-focus: 0 0 0 1px rgba(251, 191, 36, 0.2), 0 8px 28px -12px rgba(234, 88, 12, 0.18);
+  --auth-gradient-cta: linear-gradient(90deg, #ea580c 0%, #f59e0b 50%, #ea580c 100%);
+  --auth-gradient-hero: linear-gradient(165deg, #ff6900 0%, #fb923c 28%, #fdba74 55%, #fed7aa 85%, #fff7ed 100%);
+
+  --color-glamour-50: #fafaf9;
+  --color-glamour-100: #f5f5f4;
+  --color-glamour-200: #e7e5e4;
+  --color-glamour-300: #d6d3d1;
+  --color-glamour-400: #a8a29e;
+  --color-glamour-500: #78716c;
+  --color-glamour-600: #57534e;
+  --color-glamour-700: #44403c;
+  --color-glamour-800: #292524;
+  --color-glamour-900: #1c1917;
+  --color-glamour-950: #0c0a09;
+
+  --color-accent: #b45309;
+  --color-accent-soft: #d97706;
+  --color-accent-muted: rgba(180, 83, 9, 0.12);
+
+  --shadow-soft: 0 24px 80px -24px rgba(15, 23, 42, 0.12);
+  --shadow-card: 0 12px 40px -16px rgba(28, 25, 23, 0.08);
+  --radius-xl: 1.25rem;
+  --radius-2xl: 1.75rem;
+}
+
+@layer base {
+  html {
+    @apply antialiased scroll-smooth text-glamour-900 bg-glamour-50;
+  }
+
+  body {
+    @apply min-h-dvh font-sans text-[15px] leading-relaxed text-glamour-800;
+  }
+
+  ::selection {
+    @apply bg-accent-muted text-glamour-900;
+  }
+}
+
+@utility glass-panel {
+  @apply border border-white/40 bg-white/55 backdrop-blur-xl shadow-[0_8px_32px_-12px_rgba(28,25,23,0.15)];
+}
+
+@utility text-balance {
+  text-wrap: balance;
+}
+
+@utility font-display {
+  font-family: var(--font-display);
+}
+
+@utility font-auth {
+  font-family: var(--font-auth);
+}
+
+/* Subtle film grain for premium auth marketing panel */
+.auth-grain {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
