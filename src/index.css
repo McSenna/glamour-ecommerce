@@ -38,10 +38,33 @@
 @layer base {
   html {
     @apply antialiased scroll-smooth text-glamour-900 bg-glamour-50;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  html::-webkit-scrollbar {
+    display: none;
   }
 
   body {
     @apply min-h-dvh font-sans text-[15px] leading-relaxed text-glamour-800;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  body::-webkit-scrollbar {
+    display: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  *::-webkit-scrollbar {
+    display: none;
   }
 
   ::selection {

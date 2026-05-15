@@ -124,10 +124,14 @@ function sortDemo(items, sort) {
 
 function filterDemo(items, { category, q, filter, minPrice, maxPrice, seller }) {
   let list = [...items]
+  const query = typeof q === 'string' ? q.trim().toLowerCase() : ''
   if (category) list = list.filter((p) => p.category === category)
-  if (q) {
-    const s = q.toLowerCase()
-    list = list.filter((p) => p.name.toLowerCase().includes(s) || p.shopName.toLowerCase().includes(s))
+  if (query) {
+    list = list.filter((p) => {
+      const name = (p.name || '').toLowerCase()
+      const shop = (p.shopName || '').toLowerCase()
+      return name.includes(query) || shop.includes(query)
+    })
   }
   if (filter === 'featured') list = list.filter((p) => p.featured)
   if (filter === 'trending') list = list.filter((p) => p.trending)

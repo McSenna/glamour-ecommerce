@@ -1,3 +1,4 @@
+import { flushServerCartSync } from '@/lib/cartSyncScheduler'
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
 import { authTokens } from '@/lib/authTokens'
@@ -25,6 +26,7 @@ export const useAuthStore = create(
           refreshToken: data.refreshToken,
         })
         set({ user: data.user })
+        flushServerCartSync()
         const { useCartStore } = await import('@/store/useCartStore')
         useCartStore.getState().clear()
         await useCartStore.getState().hydrateFromServer()
@@ -37,6 +39,7 @@ export const useAuthStore = create(
           refreshToken: data.refreshToken,
         })
         set({ user: data.user })
+        flushServerCartSync()
         const { useCartStore } = await import('@/store/useCartStore')
         useCartStore.getState().clear()
         await useCartStore.getState().hydrateFromServer()
@@ -48,6 +51,7 @@ export const useAuthStore = create(
         return data.user
       },
       logout: () => {
+        flushServerCartSync()
         authTokens.clear()
         set({ ...initial })
         import('@/store/useCartStore').then((m) => m.useCartStore.getState().clear())

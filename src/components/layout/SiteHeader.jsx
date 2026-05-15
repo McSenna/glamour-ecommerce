@@ -2,6 +2,7 @@ import { motion } from 'framer-motion'
 import { Menu, Search, ShoppingBag, User } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
+import { SiteHeaderSearch } from '@/components/layout/SiteHeaderSearch'
 import { cn } from '@/lib/cn'
 import { APP_NAME } from '@/lib/constants'
 import { useAuthStore } from '@/store/useAuthStore'
@@ -19,7 +20,9 @@ export function SiteHeader() {
   const navigate = useNavigate()
   const location = useLocation()
   const user = useAuthStore((s) => s.user)
-  const cartCount = useCartStore((s) => s.items.reduce((n, i) => n + i.quantity, 0))
+  const cartCount = useCartStore((s) =>
+    s.items.reduce((n, i) => n + (Number(i.quantity) > 0 ? Number(i.quantity) : 0), 0),
+  )
   const setMobileNav = useUIStore((s) => s.setMobileNav)
   const openCart = useModalStore((s) => s.openCart)
   const openLogin = useModalStore((s) => s.openLogin)
@@ -46,8 +49,8 @@ export function SiteHeader() {
         elevated && 'border-glamour-100/80 shadow-[0_8px_30px_-18px_rgba(28,25,23,0.18)]',
       )}
     >
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8">
-        <div className="flex items-center gap-3">
+      <div className="mx-auto flex max-w-8xl items-center gap-4 px-4 py-4 sm:px-6 lg:px-8">
+        <div className="flex min-w-0 items-center gap-3">
           <button
             type="button"
             className="inline-flex rounded-full p-2 text-glamour-700 hover:bg-glamour-100 lg:hidden"
@@ -56,7 +59,7 @@ export function SiteHeader() {
           >
             <Menu className="h-5 w-5" />
           </button>
-          <Link to="/" className="group flex items-center gap-2">
+          <Link to="/" className="group flex min-w-0 items-center gap-2">
             <span className="font-display text-xl tracking-tight text-glamour-950 sm:text-2xl">{APP_NAME}</span>
             <span className="hidden rounded-full bg-glamour-100 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-glamour-600 sm:inline">
               Luxury
@@ -64,31 +67,34 @@ export function SiteHeader() {
           </Link>
         </div>
 
-        <nav className="hidden items-center gap-8 text-sm font-medium text-glamour-600 lg:flex">
-          {links.map((l) => (
-            <NavLink
-              key={l.to}
-              to={l.to}
-              className={({ isActive }) =>
-                cn(
-                  'transition hover:text-glamour-900',
-                  isActive && 'text-glamour-900 underline decoration-glamour-300 decoration-2 underline-offset-8',
-                )
-              }
-            >
-              {l.label}
-            </NavLink>
-          ))}
-        </nav>
+        <div className="hidden min-w-0 flex-1 items-center gap-8 lg:flex">
+          <nav className="flex shrink-0 items-center gap-8 text-sm font-medium text-glamour-600">
+            {links.map((l) => (
+              <NavLink
+                key={l.to}
+                to={l.to}
+                className={({ isActive }) =>
+                  cn(
+                    'transition hover:text-glamour-900',
+                    isActive && 'text-glamour-900 underline decoration-glamour-300 decoration-2 underline-offset-8',
+                  )
+                }
+              >
+                {l.label}
+              </NavLink>
+            ))}
+          </nav>
+          <SiteHeaderSearch />
+        </div>
 
-        <div className="flex items-center gap-2 sm:gap-3">
+        <div className="ml-auto flex min-w-0 items-center gap-2 sm:gap-3">
           <button
             type="button"
             onClick={() => navigate('/shop')}
-            className="hidden rounded-full border border-glamour-200/80 bg-white/70 px-3 py-2 text-xs text-glamour-600 shadow-sm transition hover:border-glamour-300 sm:inline-flex sm:items-center sm:gap-2"
+            className="rounded-full border border-glamour-200/80 bg-white/70 p-2 text-glamour-600 shadow-sm transition hover:border-glamour-300 lg:hidden"
+            aria-label="Open shop search"
           >
             <Search className="h-4 w-4" />
-            <span className="hidden md:inline">Search spaces…</span>
           </button>
           <button
             type="button"

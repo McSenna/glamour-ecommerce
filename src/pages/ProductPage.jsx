@@ -75,9 +75,9 @@ export function ProductPage() {
             {product.descriptionRich || 'Premium listing with gallery, structured variants, and secure checkout through Glamour.'}
           </p>
           <div className="flex items-baseline gap-3">
-            <p className="text-3xl font-semibold text-glamour-900">${product.price?.toFixed(2)}</p>
+            <p className="text-3xl font-semibold text-glamour-900">${(Number(product.price) || 0).toFixed(2)}</p>
             {product.compareAt ? (
-              <p className="text-sm text-glamour-400 line-through">${product.compareAt.toFixed(2)}</p>
+              <p className="text-sm text-glamour-400 line-through">${(Number(product.compareAt) || 0).toFixed(2)}</p>
             ) : null}
             {product.ratingAvg ? (
               <span className="text-sm text-glamour-500">

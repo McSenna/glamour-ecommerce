@@ -14,20 +14,16 @@ import {
 import { loginSchema } from '@/schemas/authSchemas'
 import { useAuthStore } from '@/store/useAuthStore'
 import { useModalStore } from '@/store/useModalStore'
-import { useUIStore } from '@/store/useUIStore'
-import { cn } from '@/lib/cn'
 
 export function LoginModal() {
   const navigate = useNavigate()
   const titleId = useId()
-  const theme = useUIStore((s) => s.theme)
   const active = useModalStore((s) => s.active)
   const closeModal = useModalStore((s) => s.closeModal)
   const switchToRegister = useModalStore((s) => s.switchToRegister)
   const login = useAuthStore((s) => s.login)
 
   const open = active === 'login'
-  const dark = theme === 'dark'
 
   const {
     register,
@@ -73,7 +69,7 @@ export function LoginModal() {
       onClose={closeModal}
       variant="login"
       titleId={titleId}
-      footerSlot={<AuthTrustStrip theme={theme} />}
+      footerSlot={<AuthTrustStrip />}
     >
       <form
         className="flex h-full min-h-0 w-full max-w-[400px] flex-col justify-center space-y-4 sm:max-w-[420px] lg:mx-auto"
@@ -81,18 +77,10 @@ export function LoginModal() {
         noValidate
       >
         <header className="shrink-0 space-y-1.5">
-          <h2
-            id={titleId}
-            className={cn(
-              'font-auth text-2xl font-bold tracking-[-0.03em] sm:text-[1.75rem]',
-              dark ? 'text-white' : 'text-glamour-950',
-            )}
-          >
+          <h2 id={titleId} className="font-auth text-2xl font-bold tracking-[-0.03em] text-glamour-950 sm:text-[1.75rem]">
             Welcome back
           </h2>
-          <p className={cn('text-sm leading-relaxed', dark ? 'text-white/55' : 'text-glamour-600')}>
-            Universal sign-in — enter your credentials and pick up exactly where you left off.
-          </p>
+          <p className="text-sm leading-relaxed text-glamour-600">Sign in to continue shopping and manage your orders.</p>
         </header>
 
         <div className="shrink-0 space-y-3">
@@ -101,34 +89,24 @@ export function LoginModal() {
             type="email"
             autoComplete="email"
             icon={Mail}
-            theme={theme}
+            theme="light"
             error={errors.email?.message}
             {...register('email')}
           />
           <AuthPasswordField
             label="Password"
             autoComplete="current-password"
-            theme={theme}
+            theme="light"
             error={errors.password?.message}
             {...register('password')}
           />
         </div>
 
         <div className="flex shrink-0 flex-wrap items-center justify-between gap-3">
-          <label
-            className={cn(
-              'flex min-h-[44px] cursor-pointer select-none items-center gap-2.5 text-sm font-medium',
-              dark ? 'text-white/70' : 'text-glamour-700',
-            )}
-          >
+          <label className="flex min-h-[44px] cursor-pointer select-none items-center gap-2.5 text-sm font-medium text-glamour-700">
             <input
               type="checkbox"
-              className={cn(
-                'h-4 w-4 rounded border transition',
-                dark
-                  ? 'border-white/25 bg-white/5 text-amber-500 focus:ring-amber-500/30'
-                  : 'border-glamour-300 text-orange-600 focus:ring-amber-400/40',
-              )}
+              className="h-4 w-4 rounded border border-glamour-300 text-orange-600 transition focus:ring-amber-400/40"
               checked={remember}
               onChange={(e) => setRemember(e.target.checked)}
             />
@@ -136,10 +114,7 @@ export function LoginModal() {
           </label>
           <button
             type="button"
-            className={cn(
-              'min-h-[44px] text-sm font-semibold transition-colors',
-              dark ? 'text-amber-300/90 hover:text-amber-200' : 'text-orange-700 hover:text-orange-600',
-            )}
+            className="min-h-[44px] text-sm font-semibold text-orange-700 transition-colors hover:text-orange-600"
             onClick={() => window.alert('Password reset is not wired in this demo build.')}
           >
             Forgot password?
@@ -148,31 +123,28 @@ export function LoginModal() {
 
         {errors.root ? (
           <p
-            className="shrink-0 rounded-xl border border-red-500/25 bg-red-500/10 px-3 py-2 text-sm font-medium text-red-600 dark:text-red-400"
+            className="shrink-0 rounded-xl border border-red-500/25 bg-red-500/10 px-3 py-2 text-sm font-medium text-red-600"
             role="alert"
           >
             {errors.root.message}
           </p>
         ) : null}
 
-        <AuthPrimaryButton loading={isSubmitting} theme={theme}>
+        <AuthPrimaryButton loading={isSubmitting} theme="light">
           Continue
         </AuthPrimaryButton>
 
-        <AuthSocialDivider theme={theme} />
+        <AuthSocialDivider theme="light" />
         <div className="grid grid-cols-2 gap-2">
-          <AuthSocialButton provider="google" theme={theme} onClick={socialPlaceholder} />
-          <AuthSocialButton provider="apple" theme={theme} onClick={socialPlaceholder} />
+          <AuthSocialButton provider="google" theme="light" onClick={socialPlaceholder} />
+          <AuthSocialButton provider="apple" theme="light" onClick={socialPlaceholder} />
         </div>
 
-        <p className={cn('shrink-0 pt-1 text-center text-sm', dark ? 'text-white/50' : 'text-glamour-600')}>
+        <p className="shrink-0 pt-1 text-center text-sm text-glamour-600">
           New to Glamour?{' '}
           <button
             type="button"
-            className={cn(
-              'font-semibold underline decoration-orange-500/40 underline-offset-4 transition-colors hover:decoration-orange-500',
-              dark ? 'text-amber-300 hover:text-amber-200' : 'text-glamour-900 hover:text-orange-700',
-            )}
+            className="font-semibold text-glamour-900 underline decoration-orange-500/40 underline-offset-4 transition-colors hover:text-orange-700 hover:decoration-orange-500"
             onClick={() => switchToRegister()}
           >
             Create an account

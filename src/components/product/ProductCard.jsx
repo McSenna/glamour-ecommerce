@@ -54,10 +54,10 @@ export function ProductCard({ product, index = 0 }) {
         </div>
         <div className="mt-auto flex items-center justify-between">
           <p className="text-sm font-semibold text-glamour-900">
-            ${product.price?.toFixed(2)}
+            ${(Number(product.price) || 0).toFixed(2)}
             {product.compareAt ? (
               <span className="ml-2 text-xs font-normal text-glamour-400 line-through">
-                ${product.compareAt.toFixed(2)}
+                ${(Number(product.compareAt) || 0).toFixed(2)}
               </span>
             ) : null}
           </p>

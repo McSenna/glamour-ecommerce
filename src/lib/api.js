@@ -51,6 +51,7 @@ api.interceptors.response.use(
       } catch {
         const { useAuthStore } = await import('@/store/useAuthStore')
         useAuthStore.getState().logout()
+        return Promise.reject(error)
       }
     }
     return Promise.reject(error)

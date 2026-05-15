@@ -1,24 +1,7 @@
-import { useEffect, useRef } from 'react'
-import { useAuthStore } from '@/store/useAuthStore'
-import { useCartStore } from '@/store/useCartStore'
-
+/**
+ * Server cart sync is driven by {@link scheduleServerCartSync} after local mutations.
+ * Hydration runs on auth restore via MainLayout and on login/register via useAuthStore.
+ */
 export function CartSyncBridge() {
-  const user = useAuthStore((s) => s.user)
-  const timer = useRef(null)
-
-  useEffect(() => {
-    if (!user) return undefined
-    const unsub = useCartStore.subscribe(() => {
-      clearTimeout(timer.current)
-      timer.current = setTimeout(() => {
-        void useCartStore.getState().syncToServer()
-      }, 480)
-    })
-    return () => {
-      clearTimeout(timer.current)
-      unsub()
-    }
-  }, [user])
-
   return null
 }

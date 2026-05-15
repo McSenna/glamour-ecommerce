@@ -17,7 +17,6 @@ export function MainLayout() {
     let cancelled = false
     ;(async () => {
       try {
-        useCartStore.getState().clear()
         await useAuthStore.getState().fetchProfile()
         if (!cancelled) await useCartStore.getState().hydrateFromServer()
       } catch {

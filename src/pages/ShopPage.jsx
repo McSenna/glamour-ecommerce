@@ -10,8 +10,23 @@ import { fetchProducts } from '@/services/productService'
 
 export function ShopPage() {
   const [searchParams, setSearchParams] = useSearchParams()
-  const [localQ, setLocalQ] = useState(searchParams.get('q') || '')
-  const debouncedQ = useDebounce(localQ, 300)
+  const [localQ, setLocalQ] = useState(() => searchParams.get('q') || '')
+  const debouncedQ = useDebounce(localQ.trim(), 300)
+
+  useEffect(() => {
+    const q = searchParams.get('q') || ''
+    setLocalQ((prev) => (prev === q ? prev : q))
+  }, [searchParams])
+
+  useEffect(() => {
+    const trimmed = debouncedQ.trim()
+    const cur = searchParams.get('q') || ''
+    if (trimmed === cur) return
+    const next = new URLSearchParams(searchParams)
+    if (trimmed) next.set('q', trimmed)
+    else next.delete('q')
+    setSearchParams(next, { replace: true })
+  }, [debouncedQ, searchParams, setSearchParams])
 
   const filters = useMemo(
     () => ({
@@ -87,10 +102,11 @@ function ShopProductGrid({ filters }) {
 
   useEffect(() => {
     let cancelled = false
+    setLoading(true)
     ;(async () => {
       const data = await fetchProducts(filters)
       if (!cancelled) {
-        setItems(data)
+        setItems(Array.isArray(data) ? data : [])
         setLoading(false)
       }
     })()

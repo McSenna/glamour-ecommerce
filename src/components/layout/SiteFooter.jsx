@@ -4,7 +4,7 @@ import { APP_NAME } from '@/lib/constants'
 export function SiteFooter() {
   return (
     <footer className="mt-24 border-t border-glamour-100 bg-glamour-50/80">
-      <div className="mx-auto flex max-w-6xl flex-col gap-10 px-4 py-14 sm:px-6 lg:flex-row lg:justify-between lg:px-8">
+      <div className="mx-auto flex max-w-8xl flex-col gap-10 px-4 py-14 sm:px-6 lg:flex-row lg:justify-between lg:px-8">
         <div className="max-w-sm space-y-4">
           <p className="font-display text-2xl text-glamour-950">{APP_NAME}</p>
           <p className="text-sm text-glamour-600">
